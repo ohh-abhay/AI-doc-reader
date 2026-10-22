@@ -40,10 +40,9 @@ class LLMClient:
         temperature=self.temperature,
     )
 except openai.APIStatusError as exc:
+    details = str(exc)
     raise RuntimeError(
-        f"Gemini API returned HTTP {exc.status_code}. "
-        "Check the configured model and Gemini API endpoint "
-        "in Streamlit Cloud logs."
+        f"Gemini API error (HTTP {exc.status_code}): {details[:800]}"
     ) from exc
 
 answer = response.choices[0].message.content
