@@ -139,8 +139,8 @@ else:
         with st.chat_message("assistant"):
             if not rag.api_key:
                 st.error(
-                    "Enter your OpenAI API key in the sidebar, then submit your "
-                    "question again. Do not share your key in chat."
+                    "Enter your Gemini API key in the sidebar, then submit your "
+    "question again. Do not share your key in chat."
                 )
             else:
                 with st.status("Searching documents and generating answer…", expanded=False):
