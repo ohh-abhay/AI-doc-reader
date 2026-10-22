@@ -1,4 +1,4 @@
-
+import openai
 from openai import OpenAI
 
 SYSTEM_PROMPT = """You are DocuMind, a document-grounded AI assistant.
@@ -30,12 +30,24 @@ class LLMClient:
         self.model = model
         self.temperature = temperature
 
-    def generate(self, question: str, context: str, history=None) -> str:
-        history_text = ""
-        if history:
-            recent = history[-6:]
-            history_text = "\n".join(
-                f"{m['role'].upper()}: {m['content']}" for m in recent
+    def generate(try:
+    response = self.client.chat.completions.create(
+        model=self.model,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_input},
+        ],
+        temperature=self.temperature,
+    )
+except openai.APIStatusError as exc:
+    raise RuntimeError(
+        f"Gemini API returned HTTP {exc.status_code}. "
+        "Check the configured model and Gemini API endpoint "
+        "in Streamlit Cloud logs."
+    ) from exc
+
+answer = response.choices[0].message.content
+return (answer or "I could not generate an answer.").strip()
             )
 
         user_input = f"""Conversation history:
