@@ -73,17 +73,19 @@ with st.sidebar:
     rag.temperature = temperature
 
     st.divider()
-    st.subheader("OpenAI API key")
-    rag.api_key = st.text_input(
-        "Enter your API key",
-        value=os.getenv("OPENAI_API_KEY", ""),
-        type="password",
-        help="Used only for this app session. It is not displayed or saved to a file.",
-    ).strip()
-    if rag.api_key:
-        st.caption("API key entered for this session.")
-    else:
-        st.warning("Enter an OpenAI API key to enable answer generation.")
+    st.subheader("Gemini API key")
+
+rag.api_key = st.text_input(
+    "Enter your Gemini API key",
+    value=os.getenv("GEMINI_API_KEY", ""),
+    type="password",
+    help="Used only for this app session. Keep your key private.",
+).strip()
+
+if rag.api_key:
+    st.caption("Gemini API key entered for this session.")
+else:
+    st.warning("Enter a Gemini API key to enable answer generation.")
 
     st.divider()
     st.subheader("Project status")
