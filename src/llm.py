@@ -43,7 +43,7 @@ except openai.APIStatusError as exc:
     details = str(exc)
     raise RuntimeError(
         f"Gemini API error (HTTP {exc.status_code}): {details[:800]}"
-    ) from exc
+     ) from exc
 
 answer = response.choices[0].message.content
 return (answer or "I could not generate an answer.").strip()
