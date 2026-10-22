@@ -6,7 +6,7 @@ load_dotenv()
 
 @dataclass(frozen=True)
 class Settings:
-    llm_model: str = os.getenv("LLM_MODEL", "gpt-5.6-mini")
+    llm_model: str = os.getenv("LLM_MODEL", "gpt-5.4-mini")
     embedding_model: str = os.getenv(
         "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
     )
