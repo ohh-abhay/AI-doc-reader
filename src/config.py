@@ -6,7 +6,7 @@ load_dotenv()
 
 @dataclass(frozen=True)
 class Settings:
-    llm_model: str = os.getenv("LLM_MODEL", "gemini-3.8-flash")
+    llm_model: str = os.getenv("LLM_MODEL", "gemini-3.6-flash")
     embedding_model: str = os.getenv(
         "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
     )
