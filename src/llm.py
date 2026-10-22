@@ -1,3 +1,4 @@
+
 from openai import OpenAI
 
 SYSTEM_PROMPT = """You are DocuMind, a document-grounded AI assistant.
@@ -11,9 +12,21 @@ Rules:
 5. When useful, refer to sources as [Source 1], [Source 2], etc.
 """
 
+
 class LLMClient:
-    def __init__(self, model: str, temperature: float = 0.2, api_key: str | None = None):
-        self.client = OpenAI(api_key=api_key) if api_key else OpenAI()
+    def __init__(
+        self,
+        model: str,
+        temperature: float = 0.2,
+        api_key: str | None = None,
+    ):
+        if not api_key:
+            raise ValueError("Please enter your Gemini API key.")
+
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+        )
         self.model = model
         self.temperature = temperature
 
@@ -34,9 +47,15 @@ Document context:
 User question:
 {question}
 """
-        response = self.client.responses.create(
+
+        response = self.client.chat.completions.create(
             model=self.model,
-            instructions=SYSTEM_PROMPT,
-            input=user_input,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_input},
+            ],
+            temperature=self.temperature,
         )
-        return response.output_text.strip()
+
+        answer = response.choices[0].message.content
+        return (answer or "I could not generate an answer.").strip()
